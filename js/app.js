@@ -11,7 +11,7 @@
     companies: COMPANIES,
     mapConfig: MAP_CONFIG,
     myType: null,
-    results: [], // matchAllCompanies の結果
+    results: [],
     quizAnswers: [],
     quizIndex: 0,
     selectedType: null,
@@ -19,14 +19,13 @@
 
   const $ = (id) => document.getElementById(id);
 
-  /* ---------- 初期化 ---------- */
+  /* -------- 初期化 -------- */
 
   function init() {
     loadRemoteData().then(() => {
       renderTypeGrid();
       renderGroupLegend();
       bindEvents();
-      // 前回のタイプを復元
       const saved = localStorage.getItem("mbti-fes:myType");
       if (saved && MBTI_TYPES[saved]) {
         state.myType = saved;
@@ -35,7 +34,6 @@
     });
   }
 
-  /** GAS_ENDPOINT 設定時は最新データを取得(失敗時は data.js にフォールバック) */
   async function loadRemoteData() {
     if (!APP_CONFIG.GAS_ENDPOINT) return;
     try {
@@ -61,9 +59,7 @@
     $("btn-quiz-back").addEventListener("click", () => switchView("start"));
     $("quiz-choice-a").addEventListener("click", () => answerQuiz(0));
     $("quiz-choice-b").addEventListener("click", () => answerQuiz(1));
-    $("btn-change-type").addEventListener("click", () => {
-      switchView("start");
-    });
+    $("btn-change-type").addEventListener("click", () => switchView("start"));
     $("tab-map").addEventListener("click", () => switchTab("map"));
     $("tab-list").addEventListener("click", () => switchTab("list"));
     $("modal-overlay").addEventListener("click", (e) => {
@@ -75,21 +71,23 @@
     ["start", "quiz", "result"].forEach((v) => {
       $("view-" + v).classList.toggle("hidden", v !== name);
     });
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  /* ---------- STEP1: タイプ選択 ---------- */
+  /* -------- STEP1: タイプ選択 -------- */
 
   function renderTypeGrid() {
     const grid = $("type-grid");
     grid.innerHTML = "";
     MBTI_TYPE_LIST.forEach((type) => {
       const info = MBTI_TYPES[type];
+      const group = MBTI_GROUPS[info.group];
       const cell = document.createElement("button");
       cell.className = "type-cell";
-      cell.style.borderTopColor = MBTI_GROUPS[info.group].color;
-      cell.style.borderTopWidth = "4px";
-      cell.innerHTML = `<div class="code">${type}</div><div class="nick">${info.name}</div>`;
+      cell.innerHTML = `
+        <span class="group-dot" style="background:${group.color}"></span>
+        <div class="code">${type}</div>
+        <span class="nick">${info.name}</span>`;
       cell.addEventListener("click", () => {
         state.selectedType = type;
         grid.querySelectorAll(".type-cell").forEach((c) => c.classList.remove("selected"));
@@ -102,14 +100,13 @@
 
   function renderGroupLegend() {
     $("group-legend").innerHTML = Object.entries(MBTI_GROUPS)
-      .map(
-        ([key, g]) =>
-          `<span><span class="dot" style="background:${g.color}"></span>${g.name}(${key})</span>`
+      .map(([key, g]) =>
+        `<span><span class="dot" style="background:${g.color}"></span>${g.name}(${key})</span>`
       )
       .join("");
   }
 
-  /* ---------- STEP1b: 簡易診断 ---------- */
+  /* -------- STEP1b: 簡易診断 -------- */
 
   function startQuiz() {
     state.quizAnswers = [];
@@ -122,7 +119,7 @@
     const i = state.quizIndex;
     const q = QUIZ_QUESTIONS[i];
     $("quiz-bar").style.width = `${(i / QUIZ_QUESTIONS.length) * 100}%`;
-    $("quiz-count").textContent = `Q${i + 1} / ${QUIZ_QUESTIONS.length}(${AXIS_INFO[q.axis].theme})`;
+    $("quiz-count").textContent = `Q${i + 1} / ${QUIZ_QUESTIONS.length}（${AXIS_INFO[q.axis].theme}）`;
     $("quiz-question").textContent = q.q;
     $("quiz-choice-a").textContent = "A. " + q.a;
     $("quiz-choice-b").textContent = "B. " + q.b;
@@ -137,17 +134,21 @@
       state.myType = quizResultType(state.quizAnswers);
       localStorage.setItem("mbti-fes:myType", state.myType);
       showResult();
-      flash(`診断結果: あなたは ${state.myType}(${MBTI_TYPES[state.myType].name})タイプ!`);
+      flash(`診断結果: あなたは ${state.myType}（${MBTI_TYPES[state.myType].name}）タイプ！`);
     }
   }
 
-  /* ---------- STEP2: 結果表示 ---------- */
+  /* -------- STEP2: 結果表示 -------- */
 
   function showResult() {
     state.results = matchAllCompanies(state.myType, state.companies);
     const info = MBTI_TYPES[state.myType];
+    const group = MBTI_GROUPS[info.group];
+
     $("my-type-code").textContent = state.myType;
-    $("my-type-name").textContent = `${info.name}タイプ / ${info.desc}`;
+    $("my-type-name").innerHTML =
+      `${info.name}タイプ <span class="type-group-badge" style="background:${group.color}22;color:${group.color};border:1px solid ${group.color}44">${group.name}</span><br><span style="font-size:11px;color:var(--text-muted)">${info.desc}</span>`;
+
     renderMap();
     renderList();
     renderScoreLegend();
@@ -162,14 +163,17 @@
     $("panel-list").classList.toggle("hidden", tab !== "list");
   }
 
+  /* -------- マップ描画 -------- */
+
   function renderMap() {
     const cfg = state.mapConfig;
     $("map-title").textContent = cfg.title || "会場マップ";
+
     const grid = $("map-grid");
     grid.innerHTML = "";
     grid.style.gridTemplateColumns = `repeat(${cfg.cols}, 1fr)`;
 
-    // 位置 → 結果 の索引を作る
+    // 位置 → 結果 の索引
     const byPos = {};
     state.results.forEach((r) => {
       const b = r.company.booth || {};
@@ -182,16 +186,21 @@
         const cell = document.createElement("div");
         if (!r) {
           cell.className = "booth empty";
-          cell.innerHTML = `<div class="booth-label">-</div>`;
         } else {
-          cell.className = "booth";
+          cell.className = "booth" + (r.rank <= 3 ? ` rank-${r.rank}` : "");
           cell.style.background = scoreColor(r.match.score);
+          cell.setAttribute("tabindex", "0");
+          cell.setAttribute("role", "button");
+          cell.setAttribute("aria-label", `${r.company.name} マッチ度${r.match.score}%`);
           cell.innerHTML = `
-            ${r.rank <= 3 ? `<span class="rank-badge">${r.rank}位</span>` : ""}
+            ${r.rank <= 3 ? `<span class="booth-badge">${r.rank}位</span>` : ""}
             <div class="booth-label">${escapeHtml(r.company.booth.label || "")}</div>
             <div class="booth-name">${escapeHtml(r.company.name)}</div>
             <div class="booth-score">${r.match.score}%</div>`;
           cell.addEventListener("click", () => openDetail(r));
+          cell.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") openDetail(r);
+          });
         }
         grid.appendChild(cell);
       }
@@ -200,21 +209,22 @@
 
   function renderScoreLegend() {
     const bands = [
-      [75, "ベストマッチ"],
-      [60, "好相性"],
-      [45, "まずまず"],
-      [30, "ふつう"],
-      [0, "意外な出会い"],
+      { min: 75, label: "ベストマッチ" },
+      { min: 60, label: "好相性" },
+      { min: 45, label: "まずまず" },
+      { min: 30, label: "ふつう" },
+      { min: 0,  label: "意外な出会い" },
     ];
     $("score-legend").innerHTML = bands
-      .map(
-        ([min, label]) =>
-          `<span><span class="dot" style="display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:3px;background:${scoreColor(
-            min
-          )}"></span>${label}</span>`
+      .map(({ min, label }) =>
+        `<span class="score-legend-item">
+          <span class="score-dot" style="background:${scoreColor(min)}"></span>${label}
+        </span>`
       )
       .join("");
   }
+
+  /* -------- ランキング -------- */
 
   function renderList() {
     const panel = $("panel-list");
@@ -223,21 +233,24 @@
       const row = document.createElement("div");
       row.className = "company-row";
       row.innerHTML = `
+        <div class="rank-num">${r.rank}</div>
         <div class="score-circle" style="background:${scoreColor(r.match.score)}">
-          ${r.match.score}%<small>${r.rank}位</small>
+          ${r.match.score}%<small>マッチ度</small>
         </div>
         <div class="info">
           <div class="name">${escapeHtml(r.company.name)}</div>
-          <div class="meta">${escapeHtml(r.company.industry || "")} / ブース ${escapeHtml(
-        (r.company.booth && r.company.booth.label) || "-"
-      )} / ${scoreLabel(r.match.score)}</div>
+          <div class="meta">
+            ${escapeHtml(r.company.industry || "")}
+            &nbsp;|&nbsp; ブース ${escapeHtml((r.company.booth && r.company.booth.label) || "-")}
+            &nbsp;<span class="score-tag" style="background:${scoreColor(r.match.score)}">${scoreLabel(r.match.score)}</span>
+          </div>
         </div>`;
       row.addEventListener("click", () => openDetail(r));
       panel.appendChild(row);
     });
   }
 
-  /* ---------- 企業詳細モーダル ---------- */
+  /* -------- 企業詳細モーダル -------- */
 
   function openDetail(r) {
     const c = r.company;
@@ -248,69 +261,70 @@
     const distHtml = m.topTypes
       .slice(0, 6)
       .map((t) => {
-        const g = MBTI_TYPES[t.type].group;
+        const g = MBTI_TYPES[t.type] ? MBTI_TYPES[t.type].group : "SJ";
         return `
         <div class="dist-bar-row">
           <span class="type-code">${t.type}</span>
           <div class="bar-track">
             <div class="bar-fill" style="width:${t.pct}%;background:${MBTI_GROUPS[g].color}"></div>
           </div>
-          <span class="pct">${t.pct}% (${t.count}人)</span>
+          <span class="pct">${t.pct}%（${t.count}人）</span>
         </div>`;
       })
       .join("");
 
+    const boothLabel = (c.booth && c.booth.label) ? c.booth.label : "-";
+
     $("modal-body").innerHTML = `
-      <div class="close-row"><button class="close-btn" id="btn-close-modal">✕</button></div>
+      <div class="close-row">
+        <button class="close-btn" id="btn-close-modal" aria-label="閉じる">✕</button>
+      </div>
       <div class="detail-head">
-        <div>
-          <h2>${escapeHtml(c.name)}</h2>
-          <div class="industry">${escapeHtml(c.industry || "")} / 従業員 ${
-      c.employees || m.total
-    }名 / ブース ${escapeHtml((c.booth && c.booth.label) || "-")}</div>
+        <h2>${escapeHtml(c.name)}</h2>
+        <div class="industry">
+          ${escapeHtml(c.industry || "")} &nbsp;|&nbsp;
+          従業員 ${c.employees || m.total} 名 &nbsp;|&nbsp;
+          ブース <strong style="color:var(--amber)">${escapeHtml(boothLabel)}</strong>
         </div>
       </div>
 
       <div class="match-banner" style="background:${scoreColor(m.score)}">
-        <div class="label">あなた(${state.myType})とのマッチ度</div>
+        <div class="label">あなた（${state.myType}）とのマッチ度</div>
         <div class="big">${m.score}%</div>
-        <div class="label">${scoreLabel(m.score)} / 会場内 ${r.rank}位</div>
+        <div class="label">${scoreLabel(m.score)} &nbsp;/&nbsp; 会場内 ${r.rank}位</div>
       </div>
 
       <div class="stat-row">
         <div class="stat-box">
           <div class="value">${m.kindredPct}%</div>
-          <div class="label">気が合いそうな社員の割合</div>
+          <div class="label">気が合いそうな社員</div>
         </div>
         <div class="stat-box">
           <div class="value">${m.sameTypePct}%</div>
-          <div class="label">あなたと同じタイプの社員</div>
+          <div class="label">同じタイプの社員</div>
         </div>
         <div class="stat-box">
-          <div class="value">${MBTI_GROUPS[topGroups[0][0]].name}</div>
-          <div class="label">いちばん多い社風グループ</div>
+          <div class="value" style="font-size:13px">${MBTI_GROUPS[topGroups[0][0]].name}</div>
+          <div class="label">いちばん多い社風</div>
         </div>
       </div>
 
       <h3>会社紹介</h3>
-      <p style="font-size:14px;">${escapeHtml(c.description || "")}</p>
-      ${
-        c.pr
-          ? `<p style="font-size:13px;margin-top:6px;color:var(--accent);font-weight:700;">💬 ${escapeHtml(
-              c.pr
-            )}</p>`
-          : ""
-      }
+      <p style="font-size:14px;line-height:1.7;color:var(--text);">${escapeHtml(c.description || "")}</p>
+      ${c.pr ? `<p style="font-size:13px;margin-top:8px;color:var(--amber);font-weight:700;">${escapeHtml(c.pr)}</p>` : ""}
 
-      <h3>社員のMBTI分布(全${m.total}名が診断)</h3>
+      <h3>社員のMBTI分布（全 ${m.total} 名が診断）</h3>
       ${distHtml}
 
-      <h3>🗣 ブースでの話のきっかけ</h3>
+      <h3>ブースでの話しかけるきっかけ</h3>
       <ul class="tips-list">
         ${tips.map((t) => `<li>${escapeHtml(t)}</li>`).join("")}
       </ul>
-      <p class="note">※ マッチ度はMBTIの分布に基づく参考値です。採用の合否とは関係ありません。気になった企業にはマッチ度に関わらず話を聞きに行きましょう!</p>
+      <p class="note" style="margin-top:12px;">
+        ※ マッチ度はMBTIの分布に基づく参考値です。採用の合否とは関係ありません。気になった企業にはマッチ度に関わらず話を聞きに行きましょう！
+      </p>
     `;
+
     $("modal-overlay").classList.remove("hidden");
     $("btn-close-modal").addEventListener("click", closeModal);
     document.body.style.overflow = "hidden";
@@ -321,7 +335,7 @@
     document.body.style.overflow = "";
   }
 
-  /* ---------- ユーティリティ ---------- */
+  /* -------- ユーティリティ -------- */
 
   let flashTimer = null;
   function flash(msg) {
@@ -329,7 +343,7 @@
     el.textContent = msg;
     el.classList.add("show");
     clearTimeout(flashTimer);
-    flashTimer = setTimeout(() => el.classList.remove("show"), 3000);
+    flashTimer = setTimeout(() => el.classList.remove("show"), 3500);
   }
 
   function escapeHtml(str) {
