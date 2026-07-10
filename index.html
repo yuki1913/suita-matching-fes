@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>吹田みらい企業マッチングフェス | MBTIマッチングマップ</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="event-name">SUITA MIRAI MATCHING FES</div>
+    <h1>MBTI企業マッチングマップ</h1>
+    <div class="subtitle">あなたに合う企業が、会場マップでひと目でわかる</div>
+  </header>
+
+  <main class="container">
+    <!-- ========== STEP1: タイプ入力 ========== -->
+    <section id="view-start">
+      <div class="card">
+        <h2>あなたのMBTIタイプを教えてください</h2>
+        <p class="note" style="margin-bottom: 12px;">
+          診断結果をもとに、会場のどの企業と相性が良いかをマップに表示します。<br />
+          ※ マッチ度は「話すきっかけ」の参考情報です。相性が低い企業との出会いにも価値があります!
+        </p>
+        <div id="type-grid" class="type-grid"></div>
+        <div class="group-legend" id="group-legend"></div>
+        <button id="btn-confirm-type" class="btn btn-accent btn-block" style="margin-top: 16px;" disabled>
+          このタイプでマップを見る
+        </button>
+        <button id="btn-start-quiz" class="btn btn-ghost btn-block" style="margin-top: 10px;">
+          タイプがわからない → 簡易診断を受ける(約1分)
+        </button>
+      </div>
+    </section>
+
+    <!-- ========== STEP1b: 簡易診断 ========== -->
+    <section id="view-quiz" class="hidden">
+      <div class="card">
+        <h2>簡易MBTI診断</h2>
+        <div class="quiz-progress"><div class="bar" id="quiz-bar"></div></div>
+        <p class="note" id="quiz-count"></p>
+        <p class="quiz-q" id="quiz-question"></p>
+        <button class="quiz-choice" id="quiz-choice-a"></button>
+        <button class="quiz-choice" id="quiz-choice-b"></button>
+        <button id="btn-quiz-back" class="btn btn-ghost btn-sm" style="margin-top: 8px;">← 最初に戻る</button>
+      </div>
+    </section>
+
+    <!-- ========== STEP2: マップ / リスト ========== -->
+    <section id="view-result" class="hidden">
+      <div class="my-type-bar">
+        <div>
+          <div class="type-code" id="my-type-code"></div>
+          <div class="type-name" id="my-type-name"></div>
+        </div>
+        <button id="btn-change-type" class="btn btn-ghost btn-sm">タイプを変更</button>
+      </div>
+
+      <div class="view-toggle">
+        <button id="tab-map" class="active">会場マップ</button>
+        <button id="tab-list">マッチ度ランキング</button>
+      </div>
+
+      <div id="panel-map">
+        <div class="map-wrap">
+          <div class="map-title" id="map-title"></div>
+          <div class="map-stage">STAGE / ピッチ登壇エリア</div>
+          <div id="map-grid" class="map-grid"></div>
+          <div class="map-entrance">▼ ENTRANCE(入口)▼</div>
+          <div class="score-legend" id="score-legend"></div>
+        </div>
+      </div>
+
+      <div id="panel-list" class="hidden"></div>
+    </section>
+  </main>
+
+  <!-- 企業詳細モーダル -->
+  <div id="modal-overlay" class="modal-overlay hidden">
+    <div class="modal" id="modal-body"></div>
+  </div>
+
+  <div id="flash" class="flash"></div>
+
+  <nav class="footer-nav">
+    <a href="company.html">企業の方はこちら(社員MBTI登録)</a> |
+    <a href="admin.html">運営用</a>
+  </nav>
+
+  <script src="js/mbti.js"></script>
+  <script src="js/matching.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

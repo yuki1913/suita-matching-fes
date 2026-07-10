@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>運営管理 | 吹田みらい企業マッチングフェス</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="event-name">SUITA MIRAI MATCHING FES</div>
+    <h1>運営管理ページ</h1>
+    <div class="subtitle">企業データの取り込み・ブース配置・学生アプリ用データの書き出し</div>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      <h2>1. 企業データを取り込む</h2>
+      <p class="note" style="margin-bottom:8px;">
+        企業から送られてきた登録データ(JSON)を貼り付けて「追加」を押してください。複数件まとめて
+        <code>[ ... ]</code> の配列で貼り付けることもできます。
+      </p>
+      <div class="form-group">
+        <textarea id="import-area" class="output-area" placeholder='{ "name": "株式会社◯◯", ... }'></textarea>
+      </div>
+      <div class="btn-row">
+        <button id="btn-import" class="btn btn-primary btn-sm">＋ 追加</button>
+        <button id="btn-load-sample" class="btn btn-ghost btn-sm">サンプル12社を読み込む</button>
+        <button id="btn-clear" class="btn btn-ghost btn-sm">全削除</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>2. ブース配置を設定する</h2>
+      <div class="form-group" style="display:flex;gap:10px;">
+        <div style="flex:1;">
+          <label>マップの列数</label>
+          <input type="number" id="map-cols" min="1" max="8" value="4" />
+        </div>
+        <div style="flex:1;">
+          <label>マップの行数</label>
+          <input type="number" id="map-rows" min="1" max="8" value="3" />
+        </div>
+      </div>
+      <div class="btn-row" style="margin-bottom:10px;">
+        <button id="btn-auto-assign" class="btn btn-ghost btn-sm">ブース番号・位置を自動割り当て</button>
+      </div>
+      <div id="company-list"></div>
+      <h3>配置プレビュー</h3>
+      <div class="map-wrap" style="box-shadow:none;border:1.5px solid var(--border);">
+        <div class="map-stage">STAGE</div>
+        <div id="preview-grid" class="map-grid"></div>
+        <div class="map-entrance">▼ ENTRANCE ▼</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>3. 学生アプリ用データを書き出す</h2>
+      <p class="note" style="margin-bottom:8px;">
+        「書き出し」を押すと <code>js/data.js</code> の中身が生成されます。
+        ファイルを丸ごと置き換えれば学生アプリに反映されます。
+      </p>
+      <button id="btn-export" class="btn btn-accent btn-block">📦 data.js を書き出す</button>
+      <div id="export-wrap" class="hidden" style="margin-top:12px;">
+        <textarea id="export-area" class="output-area" readonly style="min-height:200px;"></textarea>
+        <div class="btn-row">
+          <button id="btn-export-copy" class="btn btn-primary btn-sm">📋 コピー</button>
+          <button id="btn-export-download" class="btn btn-ghost btn-sm">💾 data.js をダウンロード</button>
+        </div>
+      </div>
+    </div>
+
+    <nav class="footer-nav">
+      <a href="index.html">← 学生向けマップ</a> |
+      <a href="company.html">企業登録フォーム</a>
+    </nav>
+  </main>
+
+  <div id="flash" class="flash"></div>
+
+  <script src="js/mbti.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

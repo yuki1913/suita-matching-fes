@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>企業登録 | 吹田みらい企業マッチングフェス</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="event-name">SUITA MIRAI MATCHING FES</div>
+    <h1>企業登録フォーム</h1>
+    <div class="subtitle">会社情報と、全社員のMBTI診断結果をご入力ください</div>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      <h2>1. 会社情報</h2>
+      <div class="form-group">
+        <label>企業名 <span style="color:var(--accent)">*</span></label>
+        <input type="text" id="f-name" placeholder="例)株式会社◯◯" />
+      </div>
+      <div class="form-group">
+        <label>業種</label>
+        <input type="text" id="f-industry" placeholder="例)製造業(精密部品)" />
+      </div>
+      <div class="form-group">
+        <label>従業員数</label>
+        <input type="number" id="f-employees" min="1" placeholder="例)48" />
+      </div>
+      <div class="form-group">
+        <label>会社紹介(学生向け・150字程度)</label>
+        <textarea id="f-description" placeholder="事業内容、職場の雰囲気、若手の活躍など"></textarea>
+      </div>
+      <div class="form-group">
+        <label>学生へのひとこと</label>
+        <input type="text" id="f-pr" placeholder="例)ものづくりが好きな人、大歓迎です!" />
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>2. 社員のMBTI診断結果</h2>
+      <p class="note" style="margin-bottom:12px;">
+        全社員(または参加部署の社員)にMBTI診断を受けてもらい、タイプごとの<strong>人数</strong>を入力してください。<br />
+        診断は 16personalities などの無料診断でOKです。個人名は不要、人数の集計のみで大丈夫です。
+      </p>
+      <div id="mbti-grid" class="mbti-count-grid"></div>
+      <div class="total-badge">合計: <span id="total-count">0</span> 名</div>
+    </div>
+
+    <div class="card">
+      <h2>3. 登録</h2>
+      <button id="btn-generate" class="btn btn-accent btn-block">登録データを作成する</button>
+      <div id="output-wrap" class="hidden" style="margin-top:14px;">
+        <p class="note" style="margin-bottom:6px;">
+          以下のデータをコピーして、<strong>運営(Winttle)へメール等でお送りください</strong>。
+        </p>
+        <textarea id="output" class="output-area" readonly></textarea>
+        <div class="btn-row">
+          <button id="btn-copy" class="btn btn-primary btn-sm">📋 コピー</button>
+          <button id="btn-download" class="btn btn-ghost btn-sm">💾 ファイルで保存</button>
+          <button id="btn-send" class="btn btn-ghost btn-sm hidden">📡 オンラインで送信</button>
+        </div>
+      </div>
+    </div>
+
+    <nav class="footer-nav">
+      <a href="index.html">← 学生向けマップに戻る</a>
+    </nav>
+  </main>
+
+  <div id="flash" class="flash"></div>
+
+  <script src="js/mbti.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/company.js"></script>
+</body>
+</html>

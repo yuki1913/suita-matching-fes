@@ -1,0 +1,761 @@
+/* ============ 基本 ============ */
+:root {
+  --primary: #1e3a8a;
+  --primary-light: #3b5bd0;
+  --accent: #e11d68;
+  --bg: #f4f6fb;
+  --card: #ffffff;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --radius: 14px;
+  --shadow: 0 2px 10px rgba(15, 23, 42, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic",
+    "Noto Sans JP", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* ============ ヘッダー ============ */
+.app-header {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: #fff;
+  padding: 18px 16px;
+  text-align: center;
+}
+
+.app-header .event-name {
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  opacity: 0.85;
+}
+
+.app-header h1 {
+  font-size: 20px;
+  margin-top: 2px;
+}
+
+.app-header .subtitle {
+  font-size: 12px;
+  opacity: 0.85;
+  margin-top: 4px;
+}
+
+/* ============ カード / セクション ============ */
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 18px;
+  margin-bottom: 16px;
+}
+
+.card h2 {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: var(--primary);
+}
+
+.card h3 {
+  font-size: 14px;
+  margin: 14px 0 6px;
+}
+
+.note {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ============ ボタン ============ */
+.btn {
+  display: inline-block;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+  text-align: center;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+}
+
+.btn-accent {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-ghost {
+  background: #eef2ff;
+  color: var(--primary);
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
+.btn-sm {
+  padding: 7px 12px;
+  font-size: 13px;
+  border-radius: 8px;
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ============ タイプ選択グリッド ============ */
+.type-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.type-cell {
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  padding: 10px 2px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.type-cell .code {
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: 0.03em;
+}
+
+.type-cell .nick {
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.type-cell.selected {
+  border-color: var(--accent);
+  background: #fdf2f8;
+}
+
+.group-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.group-legend .dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  margin-right: 3px;
+}
+
+/* ============ 診断 ============ */
+.quiz-progress {
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.quiz-progress .bar {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.25s;
+}
+
+.quiz-q {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.quiz-choice {
+  display: block;
+  width: 100%;
+  border: 2px solid var(--border);
+  background: #fff;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 15px;
+  text-align: left;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.quiz-choice:hover {
+  border-color: var(--primary-light);
+}
+
+/* ============ 自分のタイプバッジ ============ */
+.my-type-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+}
+
+.my-type-bar .type-code {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.my-type-bar .type-name {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ============ ビュー切替 ============ */
+.view-toggle {
+  display: flex;
+  background: #e2e8f0;
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 14px;
+}
+
+.view-toggle button {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 9px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.view-toggle button.active {
+  background: #fff;
+  color: var(--primary);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ============ 会場マップ ============ */
+.map-wrap {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 14px;
+}
+
+.map-title {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.map-stage {
+  background: var(--primary);
+  color: #fff;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 8px;
+  padding: 6px;
+  margin-bottom: 12px;
+  letter-spacing: 0.2em;
+}
+
+.map-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.booth {
+  border-radius: 12px;
+  padding: 10px 6px;
+  min-height: 86px;
+  color: #fff;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  transition: transform 0.12s;
+  overflow: hidden;
+}
+
+.booth:active {
+  transform: scale(0.97);
+}
+
+.booth .booth-label {
+  font-size: 10px;
+  opacity: 0.85;
+}
+
+.booth .booth-name {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+.booth .booth-score {
+  font-size: 15px;
+  font-weight: 800;
+  margin-top: 2px;
+}
+
+.booth .rank-badge {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  background: #fff;
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 800;
+  border-radius: 999px;
+  padding: 1px 7px;
+}
+
+.booth.empty {
+  background: #eef1f6;
+  border: 2px dashed var(--border);
+  cursor: default;
+  color: var(--muted);
+}
+
+.map-entrance {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 12px;
+  letter-spacing: 0.2em;
+}
+
+.score-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin-top: 12px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* ============ 企業リスト ============ */
+.company-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 14px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.company-row .score-circle {
+  flex-shrink: 0;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.company-row .score-circle small {
+  font-size: 8px;
+  font-weight: 400;
+  margin-top: 2px;
+}
+
+.company-row .info {
+  min-width: 0;
+}
+
+.company-row .name {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.company-row .meta {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ============ モーダル(企業詳細) ============ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 18px 18px 0 0;
+  width: 100%;
+  max-width: 760px;
+  max-height: 88vh;
+  overflow-y: auto;
+  padding: 22px 18px 34px;
+  animation: slideUp 0.22s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal .close-row {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modal .close-btn {
+  border: none;
+  background: #f1f5f9;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.modal .detail-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.modal .detail-head h2 {
+  font-size: 19px;
+}
+
+.modal .detail-head .industry {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.match-banner {
+  border-radius: 12px;
+  color: #fff;
+  padding: 14px;
+  text-align: center;
+  margin: 12px 0;
+}
+
+.match-banner .big {
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.match-banner .label {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.stat-row {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.stat-box {
+  flex: 1;
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 10px 6px;
+  text-align: center;
+}
+
+.stat-box .value {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.stat-box .label {
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.dist-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-size: 12px;
+}
+
+.dist-bar-row .type-code {
+  width: 44px;
+  font-weight: 700;
+}
+
+.dist-bar-row .bar-track {
+  flex: 1;
+  background: #f1f5f9;
+  border-radius: 5px;
+  height: 14px;
+  overflow: hidden;
+}
+
+.dist-bar-row .bar-fill {
+  height: 100%;
+  border-radius: 5px;
+}
+
+.dist-bar-row .pct {
+  width: 56px;
+  text-align: right;
+  color: var(--muted);
+}
+
+.tips-list {
+  list-style: none;
+}
+
+.tips-list li {
+  background: #fdf6ee;
+  border-left: 4px solid #f59e0b;
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+/* ============ フォーム(企業・運営) ============ */
+.form-group {
+  margin-bottom: 14px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="url"],
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 15px;
+  font-family: inherit;
+  background: #fff;
+}
+
+.form-group textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.mbti-count-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.mbti-count-cell {
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 6px;
+  text-align: center;
+  background: #fff;
+}
+
+.mbti-count-cell .code {
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.mbti-count-cell .nick {
+  font-size: 9px;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.mbti-count-cell input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 5px 2px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.total-badge {
+  display: inline-block;
+  background: #eef2ff;
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 13px;
+  border-radius: 999px;
+  padding: 4px 14px;
+  margin-top: 10px;
+}
+
+.output-area {
+  width: 100%;
+  min-height: 140px;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  background: #f8fafc;
+}
+
+.btn-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.flash {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text);
+  color: #fff;
+  border-radius: 999px;
+  padding: 10px 22px;
+  font-size: 13px;
+  z-index: 200;
+  opacity: 0;
+  transition: opacity 0.25s;
+  pointer-events: none;
+}
+
+.flash.show {
+  opacity: 1;
+}
+
+/* 運営: 取り込み済み企業一覧 */
+.admin-company-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  background: #fff;
+}
+
+.admin-company-row .name {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.admin-company-row .meta {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.admin-company-row .controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.admin-company-row input,
+.admin-company-row select {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 6px;
+  font-size: 12px;
+  width: 62px;
+}
+
+.footer-nav {
+  text-align: center;
+  padding: 20px 0 34px;
+  font-size: 12px;
+}
+
+.footer-nav a {
+  color: var(--muted);
+  margin: 0 8px;
+}
+
+@media (min-width: 600px) {
+  .modal-overlay {
+    align-items: center;
+  }
+  .modal {
+    border-radius: 18px;
+  }
+  .booth {
+    min-height: 100px;
+  }
+  .booth .booth-name {
+    font-size: 13px;
+  }
+}
