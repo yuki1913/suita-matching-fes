@@ -426,25 +426,19 @@ body {
   letter-spacing: 0.05em;
 }
 
-/* ============ 3-D PERSPECTIVE VENUE ============ */
+/* ============ VENUE SCENE (flat layout, 3D on individual booths) ============ */
 
-/* Outer perspective stage */
 .venue-3d-scene {
-  perspective: 900px;
-  perspective-origin: 50% 0%;
   margin-bottom: 14px;
-  /* subtle floor colour */
-  background: linear-gradient(180deg, #eef0f8 0%, #e4e7f4 100%);
+  background: linear-gradient(160deg, #eef0f8 0%, #e8ecf6 100%);
   border-radius: 12px;
   padding: 14px 10px 20px;
   border: 1px solid var(--border);
 }
 
-/* The tilted "floor" plane */
+/* No tilt — keep flat so clicks register correctly */
 .venue-floor {
-  transform: rotateX(28deg);
-  transform-origin: 50% 0%;
-  transform-style: preserve-3d;
+  /* intentionally no transform */
 }
 
 /* ---- STAGE ---- */
@@ -616,7 +610,7 @@ body {
 }
 
 .booth {
-  border-radius: 9px;
+  border-radius: 9px 9px 7px 7px;
   padding: 9px 6px 8px;
   min-height: 82px;
   cursor: pointer;
@@ -626,42 +620,72 @@ body {
   justify-content: center;
   align-items: center;
   text-align: center;
-  transition: transform 0.12s, box-shadow 0.12s;
-  overflow: hidden;
-  /* 3D side-face illusion */
+  transition: transform 0.14s, box-shadow 0.14s;
+  overflow: visible; /* allow pseudo-elements to show outside */
+  /* bottom face depth */
   box-shadow:
-    0 4px 0 rgba(0,0,0,0.20),
-    0 5px 10px rgba(0,0,0,0.15);
-  border: 1px solid rgba(255,255,255,0.25);
+    0 6px 0 rgba(0,0,0,0.28),   /* bottom face */
+    0 8px 0 rgba(0,0,0,0.10),   /* soft spread */
+    4px 0 0 rgba(0,0,0,0.12),   /* right face */
+    6px 6px 0 rgba(0,0,0,0.10), /* bottom-right corner */
+    0 12px 24px rgba(0,0,0,0.18);
+  border: 1px solid rgba(255,255,255,0.28);
+  /* clip inner content only */
+  clip-path: none;
 }
 
-/* highlight shimmer on booth top face */
+/* Top-face shimmer */
 .booth::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 40%;
-  background: linear-gradient(180deg, rgba(255,255,255,0.22) 0%, transparent 100%);
+  inset: 0;
+  background: linear-gradient(160deg,
+    rgba(255,255,255,0.30) 0%,
+    rgba(255,255,255,0.10) 40%,
+    transparent 70%);
   pointer-events: none;
-  border-radius: 9px 9px 0 0;
+  border-radius: 9px 9px 7px 7px;
+  z-index: 1;
+}
+
+/* Right-side face */
+.booth::after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  right: -5px;
+  bottom: -6px;
+  width: 5px;
+  background: rgba(0,0,0,0.22);
+  border-radius: 0 3px 3px 0;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .booth:hover, .booth:focus {
-  transform: translateY(-3px) scale(1.02);
+  transform: translateY(-4px) translateX(-2px);
   box-shadow:
-    0 7px 0 rgba(0,0,0,0.18),
-    0 12px 24px rgba(0,0,0,0.20);
+    0 10px 0 rgba(0,0,0,0.22),
+    0 12px 0 rgba(0,0,0,0.08),
+    4px 0 0 rgba(0,0,0,0.10),
+    0 20px 32px rgba(0,0,0,0.22);
+  outline: none;
 }
 
-.booth:active { transform: scale(0.97); }
+.booth:active {
+  transform: translateY(1px) translateX(1px);
+  box-shadow:
+    0 3px 0 rgba(0,0,0,0.25),
+    0 6px 12px rgba(0,0,0,0.15);
+}
 
 .booth .booth-label {
   font-size: 9px;
   font-weight: 700;
-  color: rgba(255,255,255,0.75);
+  color: rgba(255,255,255,0.80);
   letter-spacing: 0.08em;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .booth .booth-name {
@@ -672,8 +696,8 @@ body {
   color: #fff;
   margin-top: 3px;
   position: relative;
-  z-index: 1;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  z-index: 2;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.35);
 }
 
 .booth .booth-score {
@@ -683,8 +707,8 @@ body {
   margin-top: 4px;
   color: #fff;
   position: relative;
-  z-index: 1;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.25);
+  z-index: 2;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.30);
 }
 
 .booth .booth-badge {
@@ -696,7 +720,7 @@ body {
   font-weight: 900;
   border-radius: 999px;
   padding: 2px 7px;
-  z-index: 2;
+  z-index: 3;
   letter-spacing: 0.05em;
 }
 
@@ -712,7 +736,8 @@ body {
   box-shadow: none;
 }
 
-.booth.empty::before { display: none; }
+.booth.empty::before,
+.booth.empty::after { display: none; }
 
 /* ============ SCORE LEGEND ============ */
 .score-legend {
