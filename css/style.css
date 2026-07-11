@@ -1280,3 +1280,312 @@ body {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: 0.01ms !important; }
 }
+
+/* ============================================================
+   v4 互換スタイル — app.js / company.html / admin.html が生成する
+   既存クラスを v4 デザイン言語(白ベース×スカイブルー×ポップ)で補完
+   ============================================================ */
+
+/* ---- 企業詳細モーダル(旧マークアップ) ---- */
+.modal { padding: 20px 18px 28px; }
+
+.modal .close-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 2px;
+}
+
+.modal .close-btn {
+  border: 1.5px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+
+.modal .close-btn:hover { background: var(--border); }
+
+.modal .detail-head h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 21px;
+  font-weight: 900;
+  color: var(--text);
+  line-height: 1.25;
+}
+
+.modal .detail-head .industry {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.match-banner {
+  border-radius: var(--radius-sm);
+  padding: 18px 16px;
+  text-align: center;
+  margin: 14px 0;
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+}
+
+.match-banner::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.22) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.match-banner .big {
+  font-family: 'Outfit', sans-serif;
+  font-size: 50px;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.05;
+  position: relative;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.15);
+}
+
+.match-banner .label {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.90);
+  letter-spacing: 0.04em;
+  position: relative;
+}
+
+/* ---- 社員MBTI分布バー ---- */
+.dist-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 7px;
+  font-size: 12px;
+}
+
+.dist-bar-row .type-code {
+  width: 44px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  color: var(--text);
+  flex-shrink: 0;
+}
+
+.dist-bar-row .bar-track {
+  flex: 1;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  height: 12px;
+  overflow: hidden;
+}
+
+.dist-bar-row .bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.dist-bar-row .pct {
+  min-width: 70px;
+  text-align: right;
+  color: var(--text-muted);
+  font-size: 11px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+/* ---- 話しかけるきっかけ ---- */
+.tips-list { list-style: none; }
+
+.tips-list li {
+  background: var(--yellow-light);
+  border-left: 3px solid var(--yellow);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 10px 14px;
+  font-size: 13px;
+  margin-bottom: 8px;
+  color: var(--text);
+  line-height: 1.65;
+}
+
+/* ---- ランキングのスコア円・タグ ---- */
+.company-row .score-circle {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 900;
+  font-size: 16px;
+  color: #fff;
+  line-height: 1;
+  box-shadow: 0 3px 10px rgba(0,100,160,0.18);
+}
+
+.company-row .score-circle small {
+  font-size: 8px;
+  font-weight: 700;
+  margin-top: 3px;
+  opacity: 0.9;
+}
+
+.score-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 9px;
+  border-radius: 999px;
+  margin-left: 4px;
+  color: #fff;
+  vertical-align: 1px;
+}
+
+/* ---- フォーム(企業登録・運営) ---- */
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="url"],
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  background: var(--surface-2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 11px 14px;
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--text);
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: #fff;
+}
+
+.form-group textarea { min-height: 90px; resize: vertical; }
+
+.mbti-count-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.mbti-count-cell {
+  background: var(--surface-2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 6px;
+  text-align: center;
+}
+
+.mbti-count-cell .code {
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.mbti-count-cell .nick {
+  font-size: 9px;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 5px;
+}
+
+.mbti-count-cell input {
+  width: 100%;
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-xs);
+  padding: 5px 2px;
+  text-align: center;
+  font-size: 15px;
+  color: var(--text);
+  font-family: inherit;
+}
+
+.total-badge {
+  display: inline-block;
+  background: var(--yellow-light);
+  color: #8a6a00;
+  font-weight: 800;
+  font-size: 13px;
+  border-radius: 999px;
+  padding: 5px 16px;
+  margin-top: 10px;
+  border: 1.5px solid var(--yellow);
+}
+
+.output-area {
+  width: 100%;
+  min-height: 140px;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 12px;
+  background: var(--surface-2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  color: var(--text);
+  resize: vertical;
+}
+
+.btn-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+/* ---- 運営: 企業一覧 ---- */
+.admin-company-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: var(--surface-2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-bottom: 8px;
+}
+
+.admin-company-row .name { font-weight: 700; font-size: 14px; color: var(--text); }
+.admin-company-row .meta { font-size: 11px; color: var(--text-muted); }
+.admin-company-row .controls { display: flex; align-items: center; gap: 6px; }
+
+.admin-company-row input,
+.admin-company-row select {
+  background: #fff;
+  border: 1.5px solid var(--border);
+  color: var(--text);
+  border-radius: var(--radius-xs);
+  padding: 4px 6px;
+  font-size: 12px;
+  width: 62px;
+}
