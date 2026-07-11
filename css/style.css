@@ -1061,7 +1061,7 @@ body {
 /* ============ FOOTER NAV ============ */
 .footer-nav {
   text-align: center;
-  padding: 16px 0 0;
+  padding: 24px 0 56px;
   display: flex;
   justify-content: center;
   gap: 20px;
