@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0b1530" />
+  <meta name="theme-color" content="#1e2d6e" />
   <title>運営管理 | 吹田みらいマッチングフェス</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
@@ -55,21 +55,31 @@
       <div id="company-list"></div>
       <h3>配置プレビュー</h3>
       <div class="map-wrap" style="box-shadow:none;">
-        <div class="venue-stage">
-          <div class="venue-stage-label">STAGE</div>
-        </div>
-        <div id="preview-grid" class="map-grid"></div>
-        <div class="venue-aisle">— 通路 —</div>
-        <div class="venue-reception">
-          <div class="reception-icon">&#128221;</div>
-          <div class="reception-text">
-            <div class="reception-label">RECEPTION / 受付</div>
-            <div class="reception-sub">入場登録・パンフレット配布</div>
+        <div class="venue-3d-scene" style="margin-bottom:0;">
+          <div class="venue-floor">
+            <div class="venue-stage">
+              <div class="venue-stage-label">&#9654; STAGE</div>
+            </div>
+            <div class="venue-row-label">A — ブース列</div>
+            <div id="preview-grid" class="map-grid"></div>
+            <div class="venue-aisle">&#8592;&#8592;&#8592; 通路（AISLE） &#8594;&#8594;&#8594;</div>
+            <div class="venue-reception">
+              <div class="reception-icon">&#x1F4CB;</div>
+              <div class="reception-text">
+                <div class="reception-label">RECEPTION / 受付</div>
+                <div class="reception-sub">入場登録・パンフレット配布</div>
+              </div>
+            </div>
+            <div class="reception-desks">
+              <div class="reception-desk">受付 1</div>
+              <div class="reception-desk">受付 2</div>
+              <div class="reception-desk">受付 3</div>
+            </div>
           </div>
         </div>
-        <div class="venue-entrance">
+        <div class="venue-entrance-wrap">
           <div class="entrance-arrow">&#x25BC;</div>
-          <div class="entrance-label">ENTRANCE</div>
+          <div class="entrance-label">ENTRANCE &nbsp;|&nbsp; 会場入口</div>
         </div>
       </div>
     </div>

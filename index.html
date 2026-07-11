@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="吹田みらい企業マッチングフェス — MBTIで相性の良い企業が会場マップでひと目でわかる合同説明会アプリ" />
-  <meta name="theme-color" content="#0b1530" />
+  <meta name="theme-color" content="#1e2d6e" />
   <title>吹田みらいマッチングフェス | MBTI企業マッチングマップ</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
@@ -87,34 +87,46 @@
             <div id="map-date" style="font-size:11px;color:var(--text-muted);"></div>
           </div>
 
-          <!-- ステージ -->
-          <div class="venue-stage">
-            <div class="venue-stage-label">STAGE &amp; PITCH AREA</div>
-            <div class="venue-stage-sub">ピッチ登壇・交流イベントエリア</div>
-          </div>
+          <!-- 3D perspective scene -->
+          <div class="venue-3d-scene">
+            <div class="venue-floor">
 
-          <!-- ブース A列ラベル -->
-          <div class="booth-section-label">A ブース列</div>
-          <!-- ブースグリッド（JSが描画） -->
-          <div id="map-grid" class="map-grid"></div>
+              <!-- STAGE -->
+              <div class="venue-stage">
+                <div class="venue-stage-label">&#9654; STAGE &amp; PITCH AREA</div>
+                <div class="venue-stage-sub">企業ピッチ・交流イベントエリア</div>
+              </div>
 
-          <!-- 通路 -->
-          <div class="venue-aisle">— 通路 —</div>
+              <!-- Booth section A -->
+              <div class="venue-row-label">A — ブース列</div>
+              <!-- ブースグリッド（JSが描画） -->
+              <div id="map-grid" class="map-grid"></div>
 
-          <!-- 受付 -->
-          <div class="venue-reception">
-            <div class="reception-icon" style="font-size:22px;line-height:1;">&#x1F4CB;</div>
-            <div class="reception-text">
-              <div class="reception-label">RECEPTION / 受付</div>
-              <div class="reception-sub">入場登録・パンフレット配布・ネームタグ受け取り</div>
-            </div>
-          </div>
+              <!-- AISLE -->
+              <div class="venue-aisle">&#8592;&#8592;&#8592; 通路（AISLE） &#8594;&#8594;&#8594;</div>
 
-          <!-- 入口 -->
-          <div class="venue-entrance">
+              <!-- RECEPTION -->
+              <div class="venue-reception">
+                <div class="reception-icon">&#x1F4CB;</div>
+                <div class="reception-text">
+                  <div class="reception-label">RECEPTION / 受付</div>
+                  <div class="reception-sub">入場登録 &middot; パンフレット配布 &middot; ネームタグ受け取り</div>
+                </div>
+              </div>
+              <div class="reception-desks">
+                <div class="reception-desk">受付 1</div>
+                <div class="reception-desk">受付 2</div>
+                <div class="reception-desk">受付 3</div>
+              </div>
+
+            </div><!-- /venue-floor -->
+          </div><!-- /venue-3d-scene -->
+
+          <!-- ENTRANCE (flat, outside perspective) -->
+          <div class="venue-entrance-wrap">
             <div class="entrance-arrow">&#x25BC;</div>
-            <div class="entrance-label">ENTRANCE</div>
-            <div class="entrance-sub">会場入口</div>
+            <div class="entrance-label">ENTRANCE &nbsp;|&nbsp; 会場入口</div>
+            <div class="entrance-sub">こちらからご入場ください</div>
           </div>
 
           <!-- スコア凡例 -->
