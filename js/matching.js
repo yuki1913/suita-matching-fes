@@ -131,13 +131,13 @@ function matchAllCompanies(studentType, companies) {
   return results;
 }
 
-/** マッチ度に応じた色 — 彩度を抑えた柔らかいパレット */
+/** マッチ度に応じた色 — 鮮やかで見やすいパレット */
 function scoreColor(score) {
-  if (score >= 75) return "#c45578"; // ベストマッチ: ミュートローズ
-  if (score >= 60) return "#c87848"; // 好相性: テラコッタ
-  if (score >= 45) return "#b89040"; // まずまず: ミュートゴールド
-  if (score >= 30) return "#4f6bbf"; // ふつう: ペリウィンクル
-  return "#8a93b2"; // 意外な出会い: スレートグレー
+  if (score >= 75) return "#f0507a"; // ベストマッチ: ブライトローズ
+  if (score >= 60) return "#f07840"; // 好相性: ビビッドオレンジ
+  if (score >= 45) return "#f0a832"; // まずまず: アンバー
+  if (score >= 30) return "#5b78f5"; // ふつう: ペリウィンクル
+  return "#9da6c8"; // 意外な出会い: ライトスレート
 }
 
 function scoreLabel(score) {

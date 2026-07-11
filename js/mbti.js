@@ -28,10 +28,10 @@ const MBTI_TYPES = {
 const MBTI_TYPE_LIST = Object.keys(MBTI_TYPES);
 
 const MBTI_GROUPS = {
-  NT: { name: "分析家", color: "#7060c0" }, /* ミュートバイオレット */
-  NF: { name: "外交官", color: "#3d9e7a" }, /* セージグリーン */
-  SJ: { name: "番人",   color: "#4265b8" }, /* スチールブルー */
-  SP: { name: "探検家", color: "#b88030" }, /* ウォームサンド */
+  NT: { name: "分析家", color: "#7c5cfc" }, /* バイオレット */
+  NF: { name: "外交官", color: "#20b888" }, /* エメラルド */
+  SJ: { name: "番人",   color: "#3a86ef" }, /* ブライトブルー */
+  SP: { name: "探検家", color: "#f0a832" }, /* アンバー */
 };
 
 const AXIS_INFO = {
